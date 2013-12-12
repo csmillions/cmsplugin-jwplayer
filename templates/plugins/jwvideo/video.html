@@ -1,0 +1,89 @@
+{% load sekizai_tags %}
+<div id="video-container-{{ instance.id }}" class="video-container">
+	<div id="jwplugin-video-{{ instance.id }}" class="jwplugin-video"></div>
+  {% if instance.reserve_height and instance.aspect_ratio and instance.primary == "html5" %}<div class="jwplugin-reserve-{{ instance.id }}" style="height: {{ instance.reserve_height }}px;"></div>{% endif %}
+</div>
+
+{% addtoblock 'js_includes' %}
+<script src="{{ instance.jwplayer_script }}"></script>
+{% if instance.jwplayer_license %}
+<script>jwplayer.key="{{ instance.jwplayer_license}}";</script>
+{% endif %}
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
+<script type="text/javascript">
+(function() {
+  window.video_plugin_{{ instance.id }} = {};
+
+  window.video_plugin_{{ instance.id }}.options = {
+    {% if instance.width %}
+    width: '{{ instance.width }}',
+    {% endif %}
+    {% if instance.height %}
+    height: '{{ instance.height }}',
+    {% endif %}
+    autostart: '{{ instance.autostart }}',
+    stretching: '{{ instance.stretching }}',
+    controls: '{{ instance.controls }}',
+    {% if instance.aspect_ratio %}
+    aspectratio: '{{ instance.aspect_ratio }}',
+    {% endif %}
+    primary: '{{ instance.primary }}',
+    {% if instance.skin %}
+    skin: '{{ instance.skin }}',
+    {% endif %}
+    {% if instance.image %}
+    image: '{{ instance.image }}',
+    {% endif %}
+  };
+  window.video_plugin_{{ instance.id }}.options['sources'] = [];
+  {% for source in instance.sources.all  %}
+    window.video_plugin_{{ instance.id }}.options['sources'].push({
+      file: '{{ source.url }}',
+      {% if source.label %}
+      label: {{ source.label }}
+      {% endif %}
+      {% if source.default %}
+      "default": true{% if source.media_type %},{% endif %}
+      {% endif %}
+      {% if source.media_type %}
+      type: '{{ source.media_type }}'
+      {% endif %}
+    });
+  {% endfor %}
+
+  window.video_plugin_{{ instance.id }}.saved_options = JSON.stringify(window.video_plugin_{{ instance.id }}.options)
+
+  $(document).ready(function() {
+    jwplayer('jwplugin-video-{{ instance.id }}').setup(window.video_plugin_{{ instance.id }}.options);
+    
+    jwplayer('jwplugin-video-{{ instance.id }}').onReady(function(){
+      {% if instance.reserve_height and instance.aspect_ratio and instance.primary == 'html5' %}
+      var jw_reserve_element = document.getElementsByClassName('jwplugin-reserve-{{ instance.id }}')[0];
+      jw_reserve_element.parentNode.removeChild(jw_reserve_element);
+      {% endif %}
+      {% if instance.final_frame %}
+      $('#video-container-{{ instance.id }}').removeAttr('style');
+      {% endif %}
+      return
+    });
+    
+    {% if instance.final_frame %}
+    jwplayer('jwplugin-video-{{ instance.id }}').onComplete(function(){
+      $('#video-container-{{ instance.id }}').css('height',
+        $('#video-container-{{ instance.id }}').height() + 'px');
+      window.video_plugin_{{ instance.id }}.options = JSON.parse(video_plugin.saved_options);
+      window.video_plugin_{{ instance.id }}.options.image = '{{ instance.final_frame }}';
+      window.video_plugin_{{ instance.id }}.options.autostart = 'False';
+      jwplayer('jwplugin-video-{{ instance.id }}').setup(video_plugin.options);
+      return
+    });
+    {% endif %}
+    return
+  });
+
+}).call(this);
+
+</script>
+{% endaddtoblock %}
