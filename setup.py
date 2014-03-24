@@ -17,6 +17,5 @@ setup(
 	install_requires=[
 		"django-ordered-model",
 		"django",
-		"django-cms"
 	],
 )

@@ -27,7 +27,7 @@
     stretching: '{{ instance.stretching }}',
     controls: '{{ instance.controls }}',
     {% if instance.aspect_ratio %}
-    aspectratio: '{{ instance.aspect_ratio }}',
+    aspectratio: '{{ instance.aspect_ratio and instance.use_aspect_ratio }}',
     {% endif %}
     primary: '{{ instance.primary }}',
     {% if instance.skin %}
@@ -59,7 +59,7 @@
     jwplayer('jwplugin-video-{{ instance.id }}').setup(window.video_plugin_{{ instance.id }}.options);
     
     jwplayer('jwplugin-video-{{ instance.id }}').onReady(function(){
-      {% if instance.reserve_height and instance.aspect_ratio and instance.primary == 'html5' %}
+      {% if instance.reserve_height and instance.aspect_ratio and instance.primary == 'html5' and instance.use_reserve_height %}
       var jw_reserve_element = document.getElementsByClassName('jwplugin-reserve-{{ instance.id }}')[0];
       jw_reserve_element.parentNode.removeChild(jw_reserve_element);
       {% endif %}
