@@ -1,17 +1,18 @@
 {% load sekizai_tags %}
+{% load staticfiles %}
 <div id="video-container-{{ instance.id }}" class="video-container">
 	<div id="jwplugin-video-{{ instance.id }}" class="jwplugin-video"></div>
   {% if instance.reserve_height and instance.aspect_ratio and instance.primary == "html5" %}<div class="jwplugin-reserve-{{ instance.id }}" style="height: {{ instance.reserve_height }}px;"></div>{% endif %}
 </div>
 
-{% addtoblock 'js_includes' %}
-<script src="{{ instance.jwplayer_script }}"></script>
+{% addtoblock 'jwplayer_includes' %}
+<script src="{% if instance.jwplayer_script %}{{ instance.jwplayer_script }}{% else %}{% static "cmsplugin_jwplayer/js/jwplayer.js" %}{% endif %}"></script>
 {% if instance.jwplayer_license %}
 <script>jwplayer.key="{{ instance.jwplayer_license}}";</script>
 {% endif %}
 {% endaddtoblock %}
 
-{% addtoblock "js" %}
+{% addtoblock "jwplayer_js" %}
 <script type="text/javascript">
 (function() {
   window.video_plugin_{{ instance.id }} = {};

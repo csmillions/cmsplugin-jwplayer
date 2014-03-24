@@ -18,14 +18,14 @@ class JWVideo(CMSPlugin):
 		('flash', 'Flash'),
 	)
 
-	if settings.JWPLAYER_SCRIPT:
+	try:
 		jwplayer_script = settings.JWPLAYER_SCRIPT
-	else:
+	except:
 		jwplayer_script = ''
 
-	if settings.JWPLAYER_LICENSE:
+	try:
 		jwplayer_license = settings.JWPLAYER_LICENSE
-	else:
+	except:
 		jwplayer_license = ''
 
 	name = models.CharField(max_length=32, help_text='String to help identify player')
