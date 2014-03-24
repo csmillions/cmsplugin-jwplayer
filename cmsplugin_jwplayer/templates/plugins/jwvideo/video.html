@@ -26,8 +26,8 @@
     autostart: '{{ instance.autostart }}',
     stretching: '{{ instance.stretching }}',
     controls: '{{ instance.controls }}',
-    {% if instance.aspect_ratio %}
-    aspectratio: '{{ instance.aspect_ratio and instance.use_aspect_ratio }}',
+    {% if instance.aspect_ratio and instance.use_aspect_ratio %}
+    aspectratio: '{{ instance.aspect_ratio }}',
     {% endif %}
     primary: '{{ instance.primary }}',
     {% if instance.skin %}

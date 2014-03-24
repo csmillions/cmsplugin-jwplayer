@@ -3,7 +3,6 @@ from cms.models.pluginmodel import CMSPlugin
 from django.conf import settings
 from ordered_model.models import OrderedModel
 
-
 class JWVideo(CMSPlugin):
 	""" CMS Video Plugin for Embedding JWPLAYER """
 
@@ -30,7 +29,7 @@ class JWVideo(CMSPlugin):
 		jwplayer_license = ''
 
 	name = models.CharField(max_length=32, help_text='String to help identify player')
-	jwplayer_script = models.URLField(default=jwplayer_script, help_text='URL to jwplayer JS file')
+	jwplayer_script = models.CharField(max_length=200, default=jwplayer_script, blank=True, null=True, help_text='URL to jwplayer JS file')
 	jwplayer_license = models.CharField(max_length=100, blank=True, null=True, default=jwplayer_license, help_text='JWPlayer PRO and Premium license key')
 	image = models.URLField(blank=True, null=True, help_text='(Optional) Placeholder image to start with.')
 	final_frame = models.URLField(blank=True, null=True, help_text='(Optional) Placeholder image to end with.')

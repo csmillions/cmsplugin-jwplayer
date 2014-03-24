@@ -4,7 +4,6 @@ from cms.plugin_pool import plugin_pool
 from .models import JWVideo
 from .admin import VideoSourceInline
 
-
 @plugin_pool.register_plugin
 class JWVideoPlugin(CMSPluginBase):
     """ Create JW Player """
