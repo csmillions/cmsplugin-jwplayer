@@ -28,7 +28,7 @@ class JWVideo(CMSPlugin):
 	except:
 		jwplayer_license = ''
 
-	name = models.CharField(max_length=32, help_text='String to help identify player')
+	name = models.CharField(max_length=100, help_text='String to help identify player')
 	jwplayer_script = models.CharField(max_length=200, default=jwplayer_script, blank=True, null=True, help_text='URL to jwplayer JS file')
 	jwplayer_license = models.CharField(max_length=100, blank=True, null=True, default=jwplayer_license, help_text='JWPlayer PRO and Premium license key')
 	image = models.URLField(blank=True, null=True, help_text='(Optional) Placeholder image to start with.')
