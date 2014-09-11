@@ -2,7 +2,7 @@
 {% load staticfiles %}
 <div id="video-container-{{ instance.id }}" class="video-container">
 	<div id="jwplugin-video-{{ instance.id }}" class="jwplugin-video"></div>
-  {% if instance.reserve_height and instance.aspect_ratio and instance.primary == "html5" %}<div class="jwplugin-reserve-{{ instance.id }}" style="height: {{ instance.reserve_height }}px;"></div>{% endif %}
+  {% if instance.use_reserve_height and instance.reserve_height and instance.aspect_ratio and instance.primary == "html5" %}<div class="jwplugin-reserve-{{ instance.id }}" style="height: {{ instance.reserve_height }}px;"></div>{% endif %}
 </div>
 
 {% addtoblock 'jwplayer_includes' %}
